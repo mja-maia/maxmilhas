@@ -12,7 +12,12 @@ module.exports = {
             },
             {
                 test: /\.s?[ac]ss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+                use: [
+                    'css-hot-loader',
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
+                    'sass-loader'
+                ]
             },
             {
                 test: /\.woff|.woff2|.ttf|.eot|.svg|.png|.jpg.*.$/,
@@ -25,13 +30,12 @@ module.exports = {
     },
     output: {
         path: __dirname + '/public',
-        publicPath: '/',
         filename: 'bundle.js'
     },
      plugins: [
          new webpack.HotModuleReplacementPlugin(),
          new MiniCssExtractPlugin({
-             filename: 'app.css'
+             filename: 'estilo.css'
          })
      ],
     devServer: {

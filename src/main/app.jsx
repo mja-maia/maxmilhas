@@ -1,7 +1,11 @@
 import React from 'react'
 
+import Header from './../template/header'
+
+import './../assets'
+
 export default props => (
-    <div>
-        <h1>React App!</h1>
-    </div>
-)
+	<div>
+        <Header/>
+	</div>
+);
