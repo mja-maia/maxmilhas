@@ -7,15 +7,15 @@ export default props => (
             <ul>
                 <li>
                     <i className="icon-credit"></i>
-                    Comprar Passagens
+                    Comprar passagens
                     </li>
                 <li> 
                     <i className="icon-miles"></i>
-                    Vender Milhas
+                    Vender milhas
                 </li>
                 <li> 
                     <i className="icon-question"></i>
-                    Tirar Duvidas
+                    Tirar Dúvidas
                 </li>
                 <li> 
                     <i className="icon-user"></i>
