@@ -1,4 +1,5 @@
 @import './../scss/_colors.scss';
+@import './..//scss/btn.scss';
 
 html,body{
     margin: 0;
@@ -85,16 +86,20 @@ html,body{
     padding: 10px;
 }
 
-.searcher-form{
+.cities-searcher,
+.dates-seacher {
     display: flex;
 }
 
-.form-group{
+.cities-searcher > .form-group{
     flex: 2;
     padding: 0px 20px;
-    transition: border-color .15s ease-in-out,
-    box-shadow .15s ease-in-out,
-    -webkit-box-shadow .15s ease-in-out;
+}
+
+.dates-seacher > .form-group {
+    flex: 2;
+    padding: 20px 20px;
+
 }
 
 .form-group > label{
@@ -118,10 +123,26 @@ html,body{
     border: 1px solid $light-green;
     text-overflow: clip;
     box-shadow: 4px 4px 0 hsla(200, 7%, 91%, .5);
+    transition: border-color .15s ease-in-out,
+    box-shadow .15s ease-in-out,
+    -webkit-box-shadow .15s ease-in-out;
 }
 
-.form-group i{
-    border: 1px solid red;
-    top: 10px;
-    left: 10px;
+.btn-search{
+    margin-right: 15px;
+    flex: 2;
+    margin-top: 44px;
+    color: $white;
+    background-color: $light-green;
+    box-shadow: 0 3px 0 $dark-green;
+    height: 40px;
+    border: none;
+}
+
+.btn-search:hover{
+    background-color: $dark-green;
+    box-shadow: 0 3px 0 $light-green;
+    transition: border-color .15s ease-in-out,
+    box-shadow .15s ease-in-out,
+    -webkit-box-shadow .15s ease-in-out;
 }
