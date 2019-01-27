@@ -121,14 +121,13 @@ class Autocomplete extends Component {
                             if (index === activeSuggestion) {
                                 className = "suggestion-active";
                             }
-
                             return (
                                 <li
                                     className={className}
                                     key={suggestion}
                                     onClick={onClick}
                                 >
-                                    {airports[suggestion][0]}
+                                    {`${airports[suggestion][0]} - ${airports[suggestion][1]} (${airports[suggestion][2]})`}
                                 </li>
                             );
                         })}
