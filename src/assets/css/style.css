@@ -8,7 +8,6 @@ html,body{
 }
 
 //header
-
 .header{
     padding: 0 50px;
     display: flex;
@@ -78,6 +77,8 @@ html,body{
 
 //searcher
 .searcher-wrapper{
+    position: absolute;
+    top: 300px;
     width: 1200px;
     background-color: $white;
     min-height: 181px;
@@ -110,6 +111,7 @@ html,body{
 }
 
 .form-group input{
+    padding-left: 10px;
     margin-top: 10px;
     width: 100%;
     color: $blue-dark;
@@ -145,4 +147,39 @@ html,body{
     transition: border-color .15s ease-in-out,
     box-shadow .15s ease-in-out,
     -webkit-box-shadow .15s ease-in-out;
+}
+
+
+
+.no-suggestions {
+    color: #999;
+    padding: 0.5rem;
+}
+
+.suggestions {
+    position: absolute;
+    top: 76px;
+    background-color: $white;
+    border: 1px solid $light-green;
+    list-style: none;
+    margin-top: 0;
+    max-height: 143px;
+    overflow-y: auto;
+    padding-left: 0;
+    width: 572px;
+}
+
+.suggestions li {
+    padding: 0.5rem;
+}
+
+.suggestion-active,
+.suggestions li:hover {
+    color: $light-gray;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.suggestions li:not(:last-of-type) {
+    border-bottom: 1px solid #999;
 }
