@@ -68,7 +68,7 @@ class ListItem extends Component {
 }
 
 const mapStateToProps = state => ({
-    flightList: state.list.flight_list
+    flightList: state.flight.flight_list
 })
 
 const mapDispatchToProp = {}

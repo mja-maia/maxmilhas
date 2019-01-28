@@ -34,6 +34,11 @@ html,body{
     font-size: 14px;
 }
 
+.menu-header a {
+    color: $light-gray;
+    text-decoration: none;
+}
+
 .menu-header > ul > li:hover{
     color: $light-green;
 }
@@ -247,7 +252,7 @@ html,body{
     color: $light-green;
 }
 
-.select-tab:last-of-type{
+.desactive{
     box-shadow: inset 0 -1px 0 0 $blue-dark,
     inset -1px 1px 0 0 $very-ligth-gray;
 }

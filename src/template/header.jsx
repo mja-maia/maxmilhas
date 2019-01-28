@@ -1,27 +1,28 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default props => (
-    <div className="header">
-        <div className="logo"></div>
-        <nav className="menu-header">
-            <ul>
-                <li>
-                    <i className="icon-credit"></i>
-                    Comprar passagens
-                    </li>
-                <li> 
-                    <i className="icon-miles"></i>
-                    Vender milhas
-                </li>
-                <li> 
-                    <i className="icon-question"></i>
-                    Tirar Dúvidas
-                </li>
-                <li> 
-                    <i className="icon-user"></i>
-                    Login
-                </li>
-            </ul>
-        </nav>
-    </div>
-)
+	<div className="header">
+		<div className="logo" />
+		<nav className="menu-header">
+			<ul>
+				<li>
+					<i className="icon-credit" />
+					<Link to="/">Comprar passagens</Link>
+				</li>
+				<li>
+					<i className="icon-miles" />
+					<Link to="/">Vender milhas</Link>
+				</li>
+				<li>
+					<i className="icon-question" />
+					<Link to="/">Tirar Dúvidas</Link>
+				</li>
+				<li>
+					<i className="icon-user" />
+                    <Link to="/">Login</Link>
+				</li>
+			</ul>
+		</nav>
+	</div>
+);
