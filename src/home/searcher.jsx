@@ -29,7 +29,6 @@ class Searcher extends Component {
             outboundDateOBJ: new Date(),
 		};
 
-		this.handleChange = this.handleChange.bind(this);
 		this.getFromAirport = this.getFromAirport.bind(this);
 		this.getToAirport = this.getToAirport.bind(this);
 		this.handleOutboundDate = this.handleOutboundDate.bind(this);
@@ -37,26 +36,28 @@ class Searcher extends Component {
 		this.search = this.search.bind(this);
 	}
 
-	handleChange(e) {
-		this.setState({
-			...this.state,
-			[e.target.id]: e.target.value
-		});
-	}
-
 	getFromAirport(airport) {
 		this.setState({
-			...this.state,
-			from: airport
+            ...this.state,
+            formData:{
+                ...this.state.formData,
+                from: airport
+            }
 		});
 	}
 
 	getToAirport(airport) {
-		if (this.state.from === airport) {
+		if (this.state.formData.from === airport) {
 			//TODO EXIBIR ERRO DE AEROPORTOS IGUAIS
 			console.log("aeroportos iguais.");
 		}
-        this.setState({ ...this.state, to: airport });
+        this.setState({
+            ...this.state,
+            formData: {
+                ...this.state.formData,
+                to: airport
+            }
+        });
         console.log(this.state);
 	}
 
@@ -85,20 +86,20 @@ class Searcher extends Component {
     }
 
 	search() {
-		// const SEARCH_FLIGHTS_API = 'https://flight-price-hmg.maxmilhas.com.br'
-		// const postData = {
-		//     tripType: "RT",
-		//     from: "REC",  //origem
-		//     to: "RIO",  //destino
-		//     outboundDate: "2019-02-05", //data de partida
-		//     inboundDate: "2019-02-10", //data de volta
-		//     cabin: "EC", //classe econômica (EC) ou executiva (EX)
-		//     adults: 2, //adultos
-		//     children: 1, //crianças
-		//     infants: 0 //bebês
-		// }
-		// axios.post(`${SEARCH_FLIGHTS_API}/search?time=${Date.now()}`, postData)
-		//     .then(resp => console.log('resp', resp))
+		const SEARCH_FLIGHTS_API = 'https://flight-price-hmg.maxmilhas.com.br'
+		const postData = {
+		    tripType: "RT",
+		    from: "REC",  //origem
+		    to: "RIO",  //destino
+		    outboundDate: "2019-02-04", //data de partida
+		    inboundDate: "2019-02-09", //data de volta
+		    cabin: "EC", //classe econômica (EC) ou executiva (EX)
+		    adults: 2, //adultos
+		    children: 1, //crianças
+		    infants: 0 //bebês
+		}
+		axios.post(`${SEARCH_FLIGHTS_API}/search?time=${Date.now()}`, postData)
+		    .then(resp => console.log('resp', resp))
 
 		console.log(this.state);
 	}

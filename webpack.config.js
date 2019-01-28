@@ -40,6 +40,8 @@ module.exports = {
      ],
     devServer: {
         contentBase: './public',
-        hot: true
+        hot: true,
+        publicPath: '/',
+        historyApiFallback: true,
     }
 };
