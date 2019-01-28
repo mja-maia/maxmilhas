@@ -30,7 +30,6 @@ class Autocomplete extends Component {
     }
 
 
-
     // Event fired when the input value is changed
     onChange = e => {
         const { suggestions } = this.props;
@@ -53,6 +52,7 @@ class Autocomplete extends Component {
 
     // Event fired when the user clicks on a suggestion
     onClick = e => {
+        this.props.handleClick(this.state.userInput);
         // Update the user input and reset the rest of the state
         this.setState({
             activeSuggestion: 0,
@@ -60,37 +60,6 @@ class Autocomplete extends Component {
             showSuggestions: false,
             userInput: e.currentTarget.innerText
         });
-    };
-
-    // Event fired when the user presses a key down
-    onKeyDown = e => {
-        const { activeSuggestion, filteredSuggestions } = this.state;
-
-        // User pressed the enter key, update the input and close the
-        // suggestions
-        if (e.keyCode === 13) {
-            this.setState({
-                activeSuggestion: 0,
-                showSuggestions: false,
-                userInput: filteredSuggestions[activeSuggestion]
-            });
-        }
-        // User pressed the up arrow, decrement the index
-        else if (e.keyCode === 38) {
-            if (activeSuggestion === 0) {
-                return;
-            }
-
-            this.setState({ activeSuggestion: activeSuggestion - 1 });
-        }
-        // User pressed the down arrow, increment the index
-        else if (e.keyCode === 40) {
-            if (activeSuggestion - 1 === filteredSuggestions.length) {
-                return;
-            }
-
-            this.setState({ activeSuggestion: activeSuggestion + 1 });
-        }
     };
 
     render() {
