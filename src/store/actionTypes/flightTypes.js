@@ -1,0 +1,1 @@
+export const FLIGHT_SEARCHED = "FLIGHT_SEARCHED"

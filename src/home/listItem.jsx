@@ -1,54 +1,69 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import ReactLoading from 'react-loading';
+import moment from 'moment';
+import { isEmpty } from 'ramda';
+import { convertMinsToHrsMins } from '../utils';
+
 
 
 class ListItem extends Component {
     render(){
+      const { flightList } = this.props
         return  (
-            <div>
-                {this.props.flightList.map((flight,index) => {
-                    <div key={index} className="flight-item">
-                        <div className="flight-item-information">
-                            <div className="flight-primary-info">
-                                <div className="airline flight-primary-item">
-                                    <div className="airline-name">Azul</div>
-                                    <div className="flight-number">AD2585</div>
-                                </div>
-                                <div className="flight-timming flight-primary-item">
-                                    <span className="flight-time">22:20</span>
-                                    <span className="flight-destination">CNF</span>
-                                    <div className="flight-data">29/01/19</div>
-                                </div>
-                                <div className="duration flight-primary-item">
-                                    <div className="flight-duration">01:25</div>
+          <div>
+            { isEmpty(flightList)
+              ? <ReactLoading height={'20%'} width={'20%'} />
+              : flightList.outbound.map((flight, index) => (
+                  <div key={index} >
+                  {
+                    flight.pricing.bestPriceAt !== 'ota' &&
+                    <div className="flight-item">
+                    <div className="flight-item-information">
+                      <div className="flight-primary-info">
+                        <div className="airline flight-primary-item">
+                          <div className="airline-name">{flight.airline}</div>
+                          <div className="flight-number">{flight.flightNumber}</div>
+                        </div>
+                        <div className="flight-timming flight-primary-item">
+                          <span className="flight-time">{moment(flight.departureDate).format("h:mm")}</span>
+                          <span className="flight-destination">{flight.from}</span>
+                          <div className="flight-data">{moment(flight.departureDate).format("DD/MM/YY")}</div>
+                        </div>
+                        <div className="duration flight-primary-item">
+                          <div className="flight-duration">{convertMinsToHrsMins(flight.duration)}</div>
 
-                                    <div className="flight-stops">Voo direto</div>
-                                </div>
-                                <div className="airline flight-primary-item">
-                                    <div className="airline-name">Azul</div>
-                                    <div className="flight-number">AD2585</div>
-                                </div>
-                            </div>
+                          <div className="flight-stops">Voo direto</div>
                         </div>
-                        <div className="flight-item-price">
-                            <div className="cia-price">
-                                <span>Na AZUL</span>
-                                <span> R$ 614,95</span>
-                                <div className="highlight-price">
-                                    <div className="price">
-                                        <span>R$ 565,75</span>
-                                        <div className="small">Ida por adulto com taxas na MaxMilhas </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button className="btn btn-buy">COMPRAR</button>
-                                </div>
-                            </div>
+                        <div className="flight-timming flight-primary-item">
+                          <span className="flight-time">{moment(flight.arriavalDate).format("h:mm")}</span>
+                          <span className="flight-destination">{flight.to}</span>
+                          <div className="flight-data">{ moment(flight.arrivalDate).format("DD/MM/YYYY")}</div>
                         </div>
+                      </div>
                     </div>
-                })}
-            </div>
-        )
+                    <div className="flight-item-price">
+                      <div className="cia-price">
+                        <span>{flight.airline}</span>
+                        <span> R$ { flight.pricing.airline.saleTotal }</span>
+                        <div className="highlight-price">
+                          <div className="price">
+                            <span>R$ {flight.pricing.airline.fareTotal}</span>
+                            <div className="small">Ida por adulto com taxas na MaxMilhas </div>
+                          </div>
+                        </div>
+                        <div>
+                          <button className="btn btn-buy">COMPRAR</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            ))
+          }
+        </div>
+      )
     }
 }
 
