@@ -89,8 +89,8 @@ class Searcher extends Component {
 		const SEARCH_FLIGHTS_API = 'https://flight-price-hmg.maxmilhas.com.br'
 		const postData = {
 		    tripType: "RT",
-		    from: "REC",  //origem
-		    to: "RIO",  //destino
+		    from: "CNF",  //origem
+		    to: "BSB",  //destino
 		    outboundDate: "2019-02-04", //data de partida
 		    inboundDate: "2019-02-09", //data de volta
 		    cabin: "EC", //classe econômica (EC) ou executiva (EX)
