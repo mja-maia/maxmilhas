@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import axios from 'axios'
 
 import Autocomplete from './../template/autocomplete'
+import DatePicker, { registerLocale } from 'react-datepicker'
+import ptBR from 'date-fns/locale/pt-BR'
+registerLocale("pt-BR", ptBR);
+import "react-datepicker/dist/react-datepicker.css";
+import { formatDate } from './../utils/utils'
 
 
 class Searcher extends Component {
@@ -9,20 +14,26 @@ class Searcher extends Component {
 		super(props);
 		this.state = {
 			airports: require("./../assets/airports.json")["airports"],
-			tripType: "RT",
-			from: "",
-			to: "",
-			outboundDate: "",
-			inboundDate: "",
-			cabin: "EC",
-			adults: 1,
-			children: 0,
-			infants: 0
+			formData: {
+                tripType: "RT",
+                from: "",
+                to: "",
+                outboundDate: formatDate(new Date()),
+                inboundDate: "",
+                cabin: "EC",
+                adults: 1,
+                children: 0,
+                infants: 0,
+            },
+            inboundDateOBJ: null,
+            outboundDateOBJ: new Date(),
 		};
 
 		this.handleChange = this.handleChange.bind(this);
 		this.getFromAirport = this.getFromAirport.bind(this);
 		this.getToAirport = this.getToAirport.bind(this);
+		this.handleOutboundDate = this.handleOutboundDate.bind(this);
+		this.handleInboundDate = this.handleInboundDate.bind(this);
 		this.search = this.search.bind(this);
 	}
 
@@ -33,19 +44,44 @@ class Searcher extends Component {
 		});
 	}
 
-	getFromAirport(airport){
+	getFromAirport(airport) {
+		this.setState({
+			...this.state,
+			from: airport
+		});
+	}
+
+	getToAirport(airport) {
+		if (this.state.from === airport) {
+			//TODO EXIBIR ERRO DE AEROPORTOS IGUAIS
+			console.log("aeroportos iguais.");
+		}
+        this.setState({ ...this.state, to: airport });
+        console.log(this.state);
+	}
+
+    handleOutboundDate(date) {
         this.setState({
             ...this.state,
-            from: airport
-        })
+            outboundDateOBJ: new Date(date),
+            inboundDateOBJ: null,
+            formData: {
+                ...this.state.formData,
+                outboundDate: formatDate(date),
+                inboundDate: ''
+            }
+        });
     }
 
-    getToAirport(airport) {
-        if (this.state.from === airport){
-            //TODO EXIBIR ERRO DE AEROPORTOS IGUAIS
-            console.log('aeroportos iguais.')
-        }
-        this.setState({ ...this.state, to: airport })
+	handleInboundDate(date) {
+        this.setState({
+            ...this.state,
+            inboundDateOBJ: new Date(date),
+            formData: {
+                ...this.state.formData,
+                inboundDate: formatDate(date)
+            }
+        })
     }
 
 	search() {
@@ -80,22 +116,34 @@ class Searcher extends Component {
 					</div>
 					<div className="form-group">
 						<label htmlFor="">Ir para</label>
-                        <Autocomplete
-                            handleClick={this.getToAirport}
-                            suggestions={this.state.airports}
-                        />
+						<Autocomplete
+							handleClick={this.getToAirport}
+							suggestions={this.state.airports}
+						/>
 					</div>
 				</div>
 
 				<div className="dates-seacher">
 					<div className="form-group">
 						<label htmlFor="">Data de ida</label>
-						<input id="outboundDate" type="text" onChange={this.handleChange} />
+                        <DatePicker
+                            dateFormat="dd/MM/yyyy"
+                            disabledKeyboardNavigation
+                            selected={this.state.outboundDateOBJ}
+                            locale="pt-BR" 
+                            minDate={new Date()}
+                            onChange={this.handleOutboundDate} />
 					</div>
 
 					<div className="form-group">
 						<label htmlFor="">Data de volta</label>
-						<input id="inboundDate" type="text" onChange={this.handleChange} />
+                        <DatePicker
+                            locale="pt-BR"
+                            dateFormat="dd/MM/yyyy"
+                            disabledKeyboardNavigation
+                            selected={this.state.inboundDateOBJ}
+                            minDate={this.state.outboundDateOBJ}
+                            onChange={this.handleInboundDate} />
 					</div>
 
 					<div className="form-group">
