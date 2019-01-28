@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import axios from 'axios'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { Redirect } from 'react-router-dom'
 
 import Autocomplete from './../template/autocomplete'
 import DatePicker, { registerLocale } from 'react-datepicker'
@@ -7,6 +9,8 @@ import ptBR from 'date-fns/locale/pt-BR'
 registerLocale("pt-BR", ptBR);
 import "react-datepicker/dist/react-datepicker.css";
 import { formatDate } from './../utils/utils'
+import { createIntention } from "./searcherAction";
+
 
 
 class Searcher extends Component {
@@ -27,13 +31,14 @@ class Searcher extends Component {
             },
             inboundDateOBJ: null,
             outboundDateOBJ: new Date(),
+            redirectToSearch: false
 		};
 
 		this.getFromAirport = this.getFromAirport.bind(this);
 		this.getToAirport = this.getToAirport.bind(this);
 		this.handleOutboundDate = this.handleOutboundDate.bind(this);
 		this.handleInboundDate = this.handleInboundDate.bind(this);
-		this.search = this.search.bind(this);
+		this.createIntention = this.createIntention.bind(this);
 	}
 
 	getFromAirport(airport) {
@@ -58,7 +63,6 @@ class Searcher extends Component {
                 to: airport
             }
         });
-        console.log(this.state);
 	}
 
     handleOutboundDate(date) {
@@ -85,59 +89,51 @@ class Searcher extends Component {
         })
     }
 
-	search() {
-		const SEARCH_FLIGHTS_API = 'https://flight-price-hmg.maxmilhas.com.br'
-		const postData = {
-		    tripType: "RT",
-		    from: "CNF",  //origem
-		    to: "BSB",  //destino
-		    outboundDate: "2019-02-04", //data de partida
-		    inboundDate: "2019-02-09", //data de volta
-		    cabin: "EC", //classe econômica (EC) ou executiva (EX)
-		    adults: 2, //adultos
-		    children: 1, //crianças
-		    infants: 0 //bebês
-		}
-		axios.post(`${SEARCH_FLIGHTS_API}/search?time=${Date.now()}`, postData)
-		    .then(resp => console.log('resp', resp))
-
-		console.log(this.state);
+    createIntention() {
+        this.props.createIntention(this.state.formData)
+        this.setState({
+            ...this.state,
+            redirectToSearch: true
+        })
 	}
 
 	render() {
-		return (
-			<div className="searcher-wrapper">
-				<div className="cities-searcher">
-					<div className="form-group">
-						<label htmlFor="">Sair de </label>
-						<Autocomplete
-							handleClick={this.getFromAirport}
-							suggestions={this.state.airports}
-						/>
-					</div>
-					<div className="form-group">
-						<label htmlFor="">Ir para</label>
-						<Autocomplete
-							handleClick={this.getToAirport}
-							suggestions={this.state.airports}
-						/>
-					</div>
-				</div>
+        if(this.state.redirectToSearch){
+            return <Redirect to="/busca"/>
+        }
+        return (
+            <div className="searcher-wrapper">
+                <div className="cities-searcher">
+                    <div className="form-group">
+                        <label htmlFor="">Sair de </label>
+                        <Autocomplete
+                            handleClick={this.getFromAirport}
+                            suggestions={this.state.airports}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="">Ir para</label>
+                        <Autocomplete
+                            handleClick={this.getToAirport}
+                            suggestions={this.state.airports}
+                        />
+                    </div>
+                </div>
 
-				<div className="dates-seacher">
-					<div className="form-group">
-						<label htmlFor="">Data de ida</label>
+                <div className="dates-seacher">
+                    <div className="form-group">
+                        <label htmlFor="">Data de ida</label>
                         <DatePicker
                             dateFormat="dd/MM/yyyy"
                             disabledKeyboardNavigation
                             selected={this.state.outboundDateOBJ}
-                            locale="pt-BR" 
+                            locale="pt-BR"
                             minDate={new Date()}
                             onChange={this.handleOutboundDate} />
-					</div>
+                    </div>
 
-					<div className="form-group">
-						<label htmlFor="">Data de volta</label>
+                    <div className="form-group">
+                        <label htmlFor="">Data de volta</label>
                         <DatePicker
                             locale="pt-BR"
                             dateFormat="dd/MM/yyyy"
@@ -145,21 +141,29 @@ class Searcher extends Component {
                             selected={this.state.inboundDateOBJ}
                             minDate={this.state.outboundDateOBJ}
                             onChange={this.handleInboundDate} />
-					</div>
+                    </div>
 
-					<div className="form-group">
-						<label htmlFor="">Passageiros e classe do voo</label>
-						<input type="text" onChange={this.handleChange} />
-					</div>
+                    <div className="form-group">
+                        <label htmlFor="">Passageiros e classe do voo</label>
+                        <input type="text" onChange={this.handleChange} />
+                    </div>
 
-					<button className="btn btn-search" onClick={this.search}>
-						<i className="icon-search"> </i>
-						Pesquisar passagem
+                    <button className="btn btn-search" onClick={this.createIntention}>
+                        <i className="icon-search"> </i>
+                        Pesquisar passagem
 					</button>
-				</div>
-			</div>
-		);
+                </div>
+            </div>
+        )
 	}
 }
 
-export default Searcher
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			createIntention
+		},
+		dispatch
+	);
+
+export default connect(null, mapDispatchToProps)(Searcher)

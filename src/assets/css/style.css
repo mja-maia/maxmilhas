@@ -137,14 +137,6 @@ html,body{
     border: none;
 }
 
-.btn-search:hover{
-    background-color: $dark-green;
-    box-shadow: 0 3px 0 $light-green;
-    transition: border-color .15s ease-in-out,
-    box-shadow .15s ease-in-out,
-    -webkit-box-shadow .15s ease-in-out;
-}
-
 
 /*AUTOCOMPLETE*/
 .no-suggestions {

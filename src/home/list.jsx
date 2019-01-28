@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Filter from './filter'
+import ListItem from './listItem'
 
 export default props => (
     <div className="flights-wrapper">
@@ -22,7 +23,7 @@ export default props => (
                 </div>
             </div>
             <div className="list-item">
-                {props.children}
+                <ListItem/>
             </div>
 		</div>
 	</div>
