@@ -14,7 +14,6 @@ class Autocomplete extends Component {
 
     constructor(props) {
         super(props);
-        console.log('props', props);
         this.state = {
             // The active selection's index
             activeSuggestion: 0,
