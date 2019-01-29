@@ -142,6 +142,69 @@ html,body{
     border: none;
 }
 
+.passenger-wrapper{
+  margin-top: 10px;
+  height: 40px;
+  cursor: pointer;
+  border: 1px solid #D2D2D2;
+  position: relative;
+}
+
+.passengers-info{
+  display:flex;
+  flex-flow: column wrap;
+}
+
+.passengers-info .form-group{
+  padding: 10px 0; 
+  display: flex;
+  justify-content: space-between;
+}
+
+.passenger-type{
+  font-weight: 700;
+  color: $light-gray;
+}
+
+select{
+  width: 50px;
+  height: 30px;
+  outline: none;
+  color: $blue-dark;
+  font-weight: 700;
+  border-color: $light-green;
+}
+
+.border-green {
+  border: 1px solid $light-green;
+}
+
+.passengers-cabin{
+  padding-top: 20px;
+  border-top: 1px solid #D2D2D2;
+}
+
+.small-cabin{
+  font-weight: 400;
+  color: $light-gray;
+  font-size: 14px;
+}
+
+.select-cabin{
+  margin-top: 10px;
+  width: 100%;
+}
+
+.dropdown-menu-passengers{
+  position: absolute;
+  top: 163px;
+  width: 240px;
+  padding:  20px 10px 20px 10px;
+  border-left: 1px solid $light-green;
+  border-right: 1px solid $light-green;
+  border-bottom: 1px solid $light-green;
+  background-color: $white;
+}
 
 /*AUTOCOMPLETE*/
 .no-suggestions {
@@ -372,6 +435,7 @@ html,body{
 }
 
 .cia-price{
+    text-transform: uppercase;
     font-size: 12px;
     font-weight: 400;
     color: $light-gray;
@@ -393,4 +457,31 @@ html,body{
 .btn-buy{
     width: 250px;
     margin-top: 10px;
+}
+
+.discount{
+  text-decoration: line-through;
+}
+
+.total-passengers{
+  margin-left: 10px;
+  margin-right: 10px;
+  color: $blue-dark;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.total-passengers-wrapper{
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.total-passengers-info{
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  font-weight: 700;
+  color: $light-gray;
 }
