@@ -23,6 +23,7 @@ html,body{
 .logo{
     width: 137px;
     height: 60px;
+    cursor: pointer;
     background: url('../imgs/logo.svg') no-repeat center center;
 }
 
@@ -281,7 +282,6 @@ select{
 /*TABS*/
 .flights-wrapper {
     background-color: #EDF3F8;
-    min-height: 60px;
     padding: 60px 20px;
     display: flex;
     justify-content: space-between;
@@ -355,7 +355,7 @@ select{
     display: flex;
     background-color: $white;
     padding: 20px 0;
-    height: 100px;
+    height: 150px;
     margin-top: 10px;
     box-shadow: 0 2px 1px rgba(0, 0, 0, .1);
 }
@@ -441,6 +441,20 @@ select{
     color: $light-gray;
 }
 
+.value-total-maxmilhas{
+  font-size: 12px;
+  color: $light-gray;
+  margin-top: 10px;
+  border-top: 1px solid #d2d2d2;
+  padding: 5px 0;
+  border-bottom: 1px solid #D2D2D2;
+  font-weight: 400;
+}
+
+.saving{
+  margin-top: 5px;
+}
+
 .price{
     margin-top: 10px;
     font-weight: 700;
@@ -484,4 +498,37 @@ select{
   font-size: 10px;
   font-weight: 700;
   color: $light-gray;
+}
+
+.luggage-wrapper{
+  margin-top: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.luggage-info{
+  background-color: #f4f9fc;
+  border-radius: 4px;
+  padding: 5px 0; 
+  width: 90%;
+  color: $blue-dark;
+  font-weight: 300;
+}
+
+.airportInputError {
+  border: 1px solid red;
+}
+
+.airportTxtError{
+  font-size: 12px;
+  color: red;
+  font-weight: 300;
+}
+
+
+.loader{
+  left: 50%;
+  top: 50%;
+  position: absolute;
 }

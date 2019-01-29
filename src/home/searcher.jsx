@@ -31,7 +31,9 @@ class Searcher extends Component {
 			},
 			inboundDateOBJ: null,
 			outboundDateOBJ: new Date(),
-			redirectToSearch: false,
+      redirectToSearch: false,
+      airportValidate: false,
+      passengerValidate: false,
 			togglePassenger: false
 		};
 
@@ -76,16 +78,20 @@ class Searcher extends Component {
 
 	getToAirport(airport) {
 		if (this.state.formData.from === airport) {
-			//TODO EXIBIR ERRO DE AEROPORTOS IGUAIS
-			console.log("aeroportos iguais.");
-		}
-		this.setState({
-			...this.state,
-			formData: {
-				...this.state.formData,
-				to: airport
-			}
-		});
+			this.setState({
+        ...this.state,
+        airportValidate: true
+      })
+		}else{
+      this.setState({
+        ...this.state,
+        airportValidate: false,
+        formData: {
+          ...this.state.formData,
+          to: airport
+        }
+      });
+    }
 	}
 
 	handleOutboundDate(date) {
@@ -113,11 +119,13 @@ class Searcher extends Component {
 	}
 
 	createIntention() {
-		this.props.createIntention(this.state.formData);
-		this.setState({
-			...this.state,
-			redirectToSearch: true
-		});
+		if(!this.state.airportValidate && !this.state.passengerValidate){
+      this.props.createIntention(this.state.formData);
+      this.setState({
+        ...this.state,
+        redirectToSearch: true
+      });
+    }
 	}
 
 	togglePassenger(e) {
@@ -128,13 +136,20 @@ class Searcher extends Component {
 	}
 
 	handlePassengers(e) {
-		this.setState({
-			...this.state,
-			formData: {
-				...this.state.formData,
-				[e.target.id]: parseInt(e.target.value)
-			}
-		});
+    const {infants, adults, children} = this.state.formData
+    if ((e.target.id == 'infants' && e.target.value > adults) || infants > adults){
+      this.setState({...this.state, passengerValidate: true})
+    } else {
+      this.setState({
+        ...this.state,
+        passengerValidate: false,
+        formData: {
+          ...this.state.formData,
+          [e.target.id]: parseInt(e.target.value)
+        }
+      });
+    }
+		
 	}
 
 	showPassengerTitle(){
@@ -151,16 +166,19 @@ class Searcher extends Component {
           </div>
         </div>
       )
-    }else {
-      return <div className="total-passengers-wrapper">
-					<div className="total-passengers">{adults + children + infants}</div>
-					<div className="total-passengers-info">
+    }
+    else {
+      return (
+        <div className="total-passengers-wrapper">
+          <div className="total-passengers">{adults + children + infants}</div>
+          <div className="total-passengers-info">
             <div className="total-passengers-type">Passageiros</div>
             <div className="total-passengers-cabin">
-            {cabin == "EC" ? "CLASSE ECONÔMICA" : "CLASSE EXECUTIVA"}
+              {cabin == "EC" ? "CLASSE ECONÔMICA" : "CLASSE EXECUTIVA"}
             </div>
-					</div>
-				</div>;
+          </div>
+        </div>
+      )
     }
   }
 
@@ -194,8 +212,16 @@ class Searcher extends Component {
 						/>
 					</div>
 					<div className="form-group">
-						<label htmlFor="">Ir para</label>
+            {
+              this.state.airportValidate ?
+              <div className="airportTxtError">
+                Os dois voos não podem ser iguais!
+              </div>
+              :
+              <label htmlFor="">Ir para</label>
+            }
 						<Autocomplete
+              error={this.state.airportValidate}
 							handleClick={this.getToAirport}
 							suggestions={this.state.airports}
 						/>
@@ -241,6 +267,11 @@ class Searcher extends Component {
 						{this.state.togglePassenger && (
 							<div className="dropdown-menu-passengers">
 								<div className="passengers-info">
+                  {
+                    this.state.passengerValidate ?
+                    <span className="airportTxtError">Deve ter mais adultos do que bebes</span>
+                    : null
+                  }
 									<div className="form-group">
 										<div className="passenger-type">Adultos</div>
 										<select id="adults" onChange={this.handlePassengers}>

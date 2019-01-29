@@ -14,7 +14,7 @@ class Autocomplete extends Component {
 
     constructor(props) {
         super(props);
-
+        console.log('props', props);
         this.state = {
             // The active selection's index
             activeSuggestion: 0,
@@ -37,7 +37,7 @@ class Autocomplete extends Component {
 
         const filteredSuggestions = Object.keys(suggestions).filter(key => key
 							.toLowerCase()
-							.indexOf(userInput.toLowerCase()) > -1);
+              .indexOf(userInput.toLowerCase()) > -1);
 
         // Update the user input and filtered suggestions, reset the active
         // suggestion and make sure the suggestions are shown
@@ -48,18 +48,32 @@ class Autocomplete extends Component {
             showSuggestions: true,
             userInput: e.currentTarget.value
         });
+
     };
+
+  verifyValues = (liValue, suggestions) => {
+    var resp = ''
+    suggestions.forEach((suggestion) => {
+      if(liValue.includes(suggestion)){
+        resp = suggestion 
+      }
+    })
+
+    return resp;
+  }
 
     // Event fired when the user clicks on a suggestion
     onClick = e => {
-        this.props.handleClick(this.state.userInput);
-        // Update the user input and reset the rest of the state
-        this.setState({
-            activeSuggestion: 0,
-            filteredSuggestions: [],
-            showSuggestions: false,
-            userInput: e.currentTarget.innerText
+      const liValue = e.currentTarget.innerText 
+      this.props.handleClick(this.verifyValues(liValue, this.state.filteredSuggestions));
+
+      this.setState({
+          activeSuggestion: 0,
+          filteredSuggestions: [],
+          showSuggestions: false,
+          userInput: e.currentTarget.innerText,
         });
+       
     };
 
     render() {
@@ -108,6 +122,7 @@ class Autocomplete extends Component {
         return (
             <Fragment>
                 <input
+                    className={this.props.error ? 'airportInputError' : ''}
                     type="text"
                     onChange={onChange}
                     onKeyDown={onKeyDown}
